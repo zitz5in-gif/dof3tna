@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>منصة دفعتنا - المحاسبة وبحث التخرج</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap');
+
+  /* الألوان النيونية الجديدة: الأزرق / السماوي */
+  :root {
+    --bg-dark: #10101a;
+    --main-neon: #00eaff;
+    --dark-accent: #0099cc;
+    --content-bg: #1a1a2e;
+    --item-bg: #2a2a44;
+    --white: #fff;
+  }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg-dark);
+    margin: 0;
+    padding: 40px 20px 80px;
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 5px; /* تقليل المسافة لإضافة بيان الإعداد */
+    font-weight: 800;
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, var(--main-neon), #33ffff, var(--main-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  }
+
+  /* تنسيق اسم المعد (المطور) */
+  .developer-credit {
+    text-align: center;
+    color: #b0e0e6;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--dark-accent);
+  }
+  .developer-credit strong {
+      color: var(--main-neon);
+      text-shadow: 0 0 5px var(--main-neon);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  /* --- تصميم نظام التبويبات (Tabs) --- */
+  .tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    padding: 15px;
+    background: var(--content-bg);
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 234, 255, 0.3);
+  }
+
+  .tab-button {
+    flex-grow: 1;
+    max-width: 350px;
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--item-bg);
+    border: 3px solid var(--dark-accent);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px var(--dark-accent);
+  }
+
+  .tab-button:hover {
+    background: var(--content-bg);
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
+    transform: translateY(-3px);
+  }
+
+  .tab-button.active {
+    background: var(--main-neon);
+    color: var(--bg-dark);
+    border-color: var(--white);
+    box-shadow: 0 0 30px var(--main-neon), inset 0 0 10px var(--white);
+    transform: scale(1.03);
+  }
+
+  .tab-content {
+    display: none;
+    padding: 20px;
+    background: var(--content-bg);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 234, 255, 0.15);
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+  /* --- نهاية تصميم نظام التبويبات --- */
+
+  /* --- تصميم الأكورديون (المحاضرات) --- */
+  .accordion-item {
+    background: var(--item-bg);
+    border-radius: 15px;
+    margin-bottom: 18px;
+    border: 2px solid var(--dark-accent);
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .accordion-item:hover {
+    border-color: var(--main-neon);
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.6);
+  }
+
+  .accordion-item.active {
+    border-color: var(--main-neon);
+    box-shadow: 0 0 30px rgba(0, 234, 255, 0.8), inset 0 0 8px var(--white);
+  }
+
+  .accordion-header {
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--main-neon);
+    user-select: none;
+    text-shadow: 0 0 8px var(--main-neon);
+  }
+
+  .icon {
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--main-neon);
+    transition: transform 0.4s ease;
+  }
+  .accordion-item.active .icon {
+    transform: rotate(-180deg);
+  }
+
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.4s ease;
+    background: #11111f;
+    padding: 0 30px;
+    border-top: 1px solid var(--dark-accent);
+    border-radius: 0 0 15px 15px;
+  }
+  .accordion-content.open {
+    padding: 20px 30px 30px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    border: 4px solid var(--main-neon);
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.5);
+    background: #000;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px 16px;
+    font-size: 0.95rem;
+    color: var(--main-neon);
+    text-shadow: 0 0 5px var(--main-neon);
+    border-top: 3px solid var(--main-neon);
+    margin-top: 60px;
+    font-weight: 600;
+    user-select: none;
+  }
+
+  @media (max-width: 650px) {
+    .tabs-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .tab-button {
+        font-size: 1rem;
+        padding: 12px 20px;
+        max-width: none;
+    }
+    .accordion-header {
+      font-size: 1.05rem;
+      padding: 15px 20px;
+    }
+    .accordion-content.open {
+      padding: 15px 20px 25px;
+    }
+    iframe {
+      height: 250px;
+    }
+    .developer-credit {
+        font-size: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>منصة دفعتنا</h1>
+    
+    <p class="developer-credit">إعداد: <strong>طه خالد</strong> ✨</p>
+
+    <div class="tabs-nav">
+      <button class="tab-button active" onclick="openTab('accounting', this)">
+        <span style="font-size: 1.5rem; margin-left: 10px;">📊</span> النظام المحاسبي الموحد
+      </button>
+      <button class="tab-button" onclick="openTab('thesis', this)">
+        <span style="font-size: 1.5rem; margin-left: 10px;">🎓</span> أساسيات بحث التخرج
+      </button>
+    </div>
+
+    <div id="accounting" class="tab-content active">
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 1<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1MTXUw-wEkKRIDgOhg0onZB8v906qGFcP/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 2<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1LKjP8cjtKB3G2u7oNi9TR0Zcw8dfSi5i/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 3<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1YMcw1KySwXWOWpStFKdDy6z1Cs7UBIb3/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 4<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1Uf6AHtr05n1lGiZZ4QT-D9IXfRQZUzwv/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 5<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/11cDVNPIX6KvW8hsFZi3CCCK_MdXIU8ls/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 6<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1cwaMU3duW2pXO3h3LCoFDBkI4OUFfqG7/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 7<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1kX3iLwS0f8HF5p6PE3JvXuJmDnKCRZnV/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 8<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/16ihcNObUgZD1nDlgxhEeg635VA9kbqPP/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 9<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1KutWOTsAWGf6pEpN3xQ5AxYBcF4p_vK6/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 10<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1YG5EQQf_WobSdE7kZDyo4E5b9AOMWWqn/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 11<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/13tDFd-Nn4aU7JwwKQrj92v7m1aWW-8Ai/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 12<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1KJBY559i4gLyIpyV378Xd0dAAxkRdERI/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 13<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1kLoAnvIZKfF3WST8eoXWU8uRVQDAAqL8/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 14<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/11DSmV5GXCdDjbML5OCL4dtwAl81Lkr7n/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 15<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/10eVpopHWr2TChg-8PgqrV1Xit0iFEXO1/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 16<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1miIWwjG_lyYR-bnb5y85q5oYFPzvBDGT/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 17<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/11NQbTzXa-w4FwDndOL-mvU1zyqufbzzw/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 18<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1rIV2ahnf7cmt18QZrrF0hxohIZPLYcSE/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 19<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1VDDNYZ2S9GcB9Rfht-zSYbllwfkWMUBU/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 20<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1bgGReHNzMkztm51L7BpKRyP8MCRn6TEH/preview" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">محاضرة 21<span class="icon"></span></div>
+          <div class="accordion-content"><iframe src="https://drive.google.com/file/d/1RkkIVPcamVwpAKu8yhbKcBFIxEdg4FMo/preview" allowfullscreen></iframe></div>
+        </div>
+
+    </div>
+    <div id="thesis" class="tab-content">
+        <div class="accordion-item">
+            <div class="accordion-header">محاضرة 1<span class="icon"></span></div>
+            <div class="accordion-content">
+                <iframe src="https://drive.google.com/file/d/14kR0pNbzhuJB2gBk5txelhABBmRa_a2E/preview" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+  <footer>جميع الحقوق محفوظة &copy; 2025 | إعداد: طه خالد</footer>
+
+<script>
+    // ** وظيفة التحكم في نظام التبويبات **
+    function openTab(tabId, buttonElement) {
+        // إخفاء كل المحتوى
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // إزالة حالة التفعيل من كل الأزرار
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+
+        // إظهار المحتوى المطلوب وتفعيل الزر
+        document.getElementById(tabId).classList.add('active');
+        buttonElement.classList.add('active');
+
+        // *إغلاق أي أكورديون مفتوح عند التبديل بين التبويبات*
+        document.querySelectorAll('.accordion-item.active').forEach(item => {
+            item.classList.remove('active');
+            item.querySelector('.accordion-content').style.maxHeight = null;
+            item.querySelector('.accordion-content').classList.remove('open');
+        });
+    }
+
+    // ** وظيفة التحكم في نظام الأكورديون **
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            const content = item.querySelector('.accordion-content');
+            
+            const parentTab = item.closest('.tab-content.active');
+            
+            // إغلاق أي أكورديون آخر مفتوح داخل نفس التبويب
+            if (parentTab) {
+                parentTab.querySelectorAll('.accordion-item.active').forEach(openItem => {
+                    if (openItem !== item) {
+                        openItem.classList.remove('active');
+                        openItem.querySelector('.accordion-content').style.maxHeight = null;
+                        openItem.querySelector('.accordion-content').classList.remove('open');
+                    }
+                });
+            }
+
+            // فتح أو إغلاق العنصر الحالي
+            item.classList.toggle('active');
+            
+            if (item.classList.contains('active')) {
+                // الفتح
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.classList.add('open');
+            } else {
+                // الإغلاق
+                content.style.maxHeight = null;
+                content.classList.remove('open');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
