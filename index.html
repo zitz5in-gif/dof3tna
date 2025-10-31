@@ -59,7 +59,7 @@
 
   /* --- تصميم نظام التبويبات (Tabs) --- */
   .tabs-nav {
-    display: flex;
+    display: flex; /* لضمان الأزرار بجانب بعضها */
     justify-content: center;
     gap: 15px;
     margin-bottom: 40px;
@@ -71,9 +71,9 @@
 
   .tab-button {
     flex-grow: 1;
-    max-width: 350px;
+    max-width: 300px; /* تم تعديل Max-width لاستيعاب ثلاثة أزرار */
     padding: 15px 25px;
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* تم تعديل الحجم ليناسب 3 أزرار */
     font-weight: 700;
     color: var(--white);
     background: var(--item-bg);
@@ -82,6 +82,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-shadow: 0 0 5px var(--dark-accent);
+    white-space: nowrap; /* منع انقسام الكلمة */
   }
 
   .tab-button:hover {
@@ -192,14 +193,15 @@
     user-select: none;
   }
 
-  @media (max-width: 650px) {
+  @media (max-width: 768px) {
     .tabs-nav {
-        flex-direction: column;
         gap: 10px;
+        flex-wrap: wrap; /* تسمح للأزرار بالنزول لسطر جديد عند الحاجة */
     }
     .tab-button {
         font-size: 1rem;
-        padding: 12px 20px;
+        padding: 12px 15px;
+        flex-grow: 1;
         max-width: none;
     }
     .accordion-header {
@@ -223,7 +225,7 @@
   <div class="container">
     <h1>منصة دفعتنا</h1>
     
-    <p class="developer-credit">إعداد: <strong>طه خالد</strong> ✨</p>
+    <p class="developer-credit">إعداد وتقديم: <strong>طه خالد</strong> ✨</p>
 
     <div class="tabs-nav">
       <button class="tab-button active" onclick="openTab('accounting', this)">
@@ -231,6 +233,9 @@
       </button>
       <button class="tab-button" onclick="openTab('thesis', this)">
         <span style="font-size: 1.5rem; margin-left: 10px;">🎓</span> أساسيات بحث التخرج
+      </button>
+      <button class="tab-button" onclick="openTab('winQSB', this)">
+        <span style="font-size: 1.5rem; margin-left: 10px;">💻</span> حاسوب winQSB
       </button>
     </div>
 
@@ -349,6 +354,44 @@
             </div>
         </div>
 
+    </div>
+    <div id="winQSB" class="tab-content">
+        <div class="accordion-item">
+            <div class="accordion-header">محاضرة 1<span class="icon"></span></div>
+            <div class="accordion-content">
+                <iframe src="https://drive.google.com/file/d/1K_tqdSiQ3iytycFx9ad3Eh-lVOHkARU0/preview" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header">محاضرة 2<span class="icon"></span></div>
+            <div class="accordion-content">
+                <iframe src="https://drive.google.com/file/d/1a1RaYTJ6yiR5xSIisgw09ToLpmsfW4Dx/preview" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header">محاضرة 3<span class="icon"></span></div>
+            <div class="accordion-content">
+                <iframe src="https://drive.google.com/file/d/1AL0NuLcm-dUjztmYEZj6cI_pqLonURSW/preview" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header">محاضرة 4<span class="icon"></span></div>
+            <div class="accordion-content">
+                <iframe src="https://drive.google.com/file/d/1e2xcRLOYWNjOiBF9J-j6pM_aQQw1z_eI/preview" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header">محاضرة 5<span class="icon"></span></div>
+            <div class="accordion-content">
+                <iframe src="https://drive.google.com/file/d/1lYKVtClUnZXwTOslWLmNjZkYbZeSoVSB/preview" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header">محاضرة 6<span class="icon"></span></div>
+            <div class="accordion-content">
+                <iframe src="https://drive.google.com/file/d/1IfjemqrcndrDQoSFqdtdWd7o91SvyEjB/preview" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
     </div>
 
